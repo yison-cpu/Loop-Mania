@@ -1,0 +1,74 @@
+# Milestone 1 Assumptions
+
+- Assumed mechanisms in which the character fights enemies, picks up items (equipment, gold, cards, etc.), and other such mechanisms are up to our discretion on how we wish to implement it.
+- Assumed the “goal” of the game is up to our discretion.
+- Assumed there’s only one enemy or building per tile, but the enemies can walk past each other
+- Assumed a maximum of three allied soldiers can help the player and will continue to do so until they lose all health.
+- Assumed cards/amounts of gold dropped by enemies should correspond to the enemy difficulty - same goes for when losing a card/equipment due to full inventory, the character should receive an equivalent amount of gold.
+- Assume prices of items are determined by developer
+- There is only one cyclic path, so when the character finishes a cycle, all tiles have been visited.
+- The player can access the hero’s castle at loop 1, 3, 6, 10, 15. Which means each visit will increase the number of loops until the next visit by 1.
+- Character moves clockwise around the path, while the enemies move both ways randomly.
+- If an allied soldier turns into a zombie, its hp will restore to 100% of the max hp of a zombie.
+- The support radius of an enemy must be larger than or equal to the battle radius
+- Shooting tower can attack multiple enemies at a time
+- There is a limit to the number of cards of the same building type the human player can have to balance the difficulty level of the game.
+- When an enemy is triggered by the support radius, it walks towards the character until its battle radius covers where the character is before the fight starts, this way, it may walk into the shooting radius of a tower and will be attacked by the shooting tower during the battle.
+- Vampire castle and zombie pit are randomly placed at the start; the human player will never receive the cards to spawn it (as it does not make sense for the human player to create more enemies).
+- The player can choose to use a health potion before each fight if there is one or drag and drop on tile just like other buildings, restore the character’s hp when walking by, and destroy once used, this way, the player can decide when to use a potion. This makes the game become more strategic because the player needs to consider whether or not the character’s current hp will survive the next fight and because a potion restores the character’s health fully, they don’t want to use the potion too early as the current hp will be “wasted”.
+- To cancel the dragging and dropping state, drag the card back to the card slot.
+- The character can only equip a maximum of one weapon, one armour, one shield, one helmet at a time.
+- Assume equipment can deteriorate, character can hold multiple of the same item 
+- Assume once the character finishes the one run of the loop, then for the next run of the loop, the enemy gains 10% more health for the next run of the loop.
+- Moving speed: slug < zombie < vampire
+- Battle radius: slug < zombie ≤ vampire
+- Support radius: slug ≤ zombie < vampire
+- For slug, battle radius = support radius
+- During a battle, allied soldiers will take damage first to protect the character until they turn into zombies or run out of hp. 
+- During a battle, the character and allied soldiers will prioritize their attack to the enemy with the lowest hp and then randomly. 
+- Assume the character is immune to the zombie's critical bite.
+- Character and allied soldiers won’t trigger traps.
+- Allied soldiers and the character regain health when passing through the village.
+- Allied soldiers and the character deal double damage within campfire battle radius.
+- Allied soldiers can not equip and use items like the character does. 
+- Assume for the winning goal of the game, is the character collect 10000 gold or gain 100000 EP or survive 10 loops of the game. It will be chosen randomly everytime a new game starts.
+
+# Milestone 2 
+- When enemies level up after each loop, their damage is doubled
+- No need for attack function for character/enemies - just functions to takeDamage:
+- Character taking damage: character.takeDamage(enemyType) // need to include chance of crit attack from zombie or vampire - dependent on enemyType
+- Slug taking damage: slug.takeDamage(weaponType)
+- Zombie taking damage: zombie.takeDamage(weaponType) 
+- Vampire taking damage: vampire.takeDamage(weaponType, inCampfireRadius) 
+- Will likely need a battle class so we can create new instances of battles
+- Also might be handy to keep a list of enemies within battleRadius and supportRadius which we can then pass into the battle instances?
+- Do we wanna increase the health and experience of enemies with each loop as well as damage?
+- There is a max of 3 allied soldiers that can exist. 
+- If there are 3 soldiers already and the character walks into the barracks, nothing will happen.
+- Assume the attack amount from the allied soldier is only 50% of the character attack amount.
+- Have a global list of generic items, all items have the same drop rate
+- Changed requirements analysis for ease for now - can change again later but so that when losing equipment due to having too much, the character gets a set amount of gold and experience
+- Character does 5 damage if no weapon attached
+- Assume in the design of Allied soldier, the attack range and function  range would be 1, and for Allied Soldier requires getter and s etter for the damage of Allied Soldier/
+- When discarding any card, the character has ⅓ chance of receiving a common item, all common items have equal chance to obtain. The character will receive ½ card value worth of gold, and 0-50% of experience of current level.
+- When discarding any item, the character gets 100% card value worth of gold.
+- Shield will only deteriorate when it successfully prevent a vampire's critical attack.
+- If the shield successfully prevented a vampire's critical attack, the character won't take any damage from that attack.
+- tower attacks all enemies in a single tick if they are in the tower's radius and in battle.
+- When character is in the radius of campfire and gets into a battle, the campfire doubles the character's and the allied soldier's final attack damage.
+- When vampire does an attack, it has 1/5 chance of having a critical attack.
+- When vampire does a critical attack, it has equal chance of making one to three vampire attack with 1 additional damage for each attack.
+
+# Milestone 3
+- Doggie spawns on a random tile and only once since it is a boss.
+- Doggie has 20% chance of stunning character.
+- Doggie coin cannot be discarded as being the oldest item.
+- Once stunned by doggie, character will not be able to attack for 3 seconds.
+- Zombies and vampires will spawn on adjacent tiles of zombie pit/ vampire castle, they can’t be spawned on a path tile which contains buildings.
+- If the player blocked all adjacent tiles of a zombie pit/ vampire castle by spawning buildings on it. The zombie and vampire will be spawned randomly in the “allowed position” on path tile. 
+- Vampire spawn at loop 1, 6, 11, …, 5*n + 1
+- Maximum 3 slugs can appear at a time, while there is no limit to the number of zombies and vampires can appear at a time, it is based on character cycle. 
+- Assume if the character and enemy is seperated by non-path tiles, battle between enemy and character can still start if enemy battle radius is large enough.
+- If an enemy is in battle and within radius of a tower, it won’t attack by the tower unless the character is also in the tower radius. In other words, an enemy can only get attacked by a tower when it is in a battle in the radius of the tower with character.
+- Villages can only regain health from a village once per loop. If the character stopped at a village because of battle, he can only regain health once.
+- Buildings can not be dropped on another building.
